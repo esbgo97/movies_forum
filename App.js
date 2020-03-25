@@ -1,27 +1,26 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
+import HomeScreen from './src/screens/main/HomeScreen'
+import LoginScreen from './src/screens/auth/LoginScreen'
+import SignUpScreen from './src/screens/auth/SignUpScreen'
+
+const Drawer = createDrawerNavigator();
 
 export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native + Firebase!!</Text>
-      </View>
+      <NavigationContainer >
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen name="Home" component={HomeScreen} />
+          <Drawer.Screen name="Login" component={LoginScreen} />
+          <Drawer.Screen name="SignUp" component={SignUpScreen} />
+        </Drawer.Navigator>
+
+      </NavigationContainer>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-});
