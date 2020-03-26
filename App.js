@@ -10,19 +10,50 @@ import LoginScreen from './src/ui/screens/auth/LoginScreen'
 import SignUpScreen from './src/ui/screens/auth/SignUpScreen'
 import DashboardScreen from './src/ui/screens/common/DashboardScreen'
 
+import AuthService from './src/services/AuthService'
+
 const Drawer = createDrawerNavigator();
 
 export default class App extends Component {
   constructor() {
     super();
+    this.authService = new AuthService()
+
     this.state = {
       IsLoading: false,
+      Alert: {
+        Type: "",
+        Message: ""
+      },
       Auth: {
         IsLogged: false,
         User: {}
       },
 
     }
+  }
+
+  componentDidMount = () => {
+    this.setState({ IsLoading: true })
+    this.authService.getCurrentUser().then(resp => {
+      if (typeof resp === "string") {
+        this.setState({
+          IsLoading: false,
+          Alert: {
+            Type: "error",
+            Message: resp
+          }
+        })
+        return;
+      }
+      this.setState({
+        IsLoading: false,
+        Auth: {
+          IsLogged: true,
+          User: resp
+        }
+      })
+    })
   }
 
   render() {

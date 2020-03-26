@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View,Text } from 'react-native'
 import GlobalStyles from '../../../utils/GlobalStyles'
-import AuthServices from '../../../services/AuthServices'
+import AuthService from '../../../services/AuthService'
 
 export default class DashboardScreen extends Component {
     state = {
@@ -9,7 +9,7 @@ export default class DashboardScreen extends Component {
     }
 
     componentDidMount() {
-        // AuthServices().getCurrentUser().then(user => this.setState({ user }))
+        AuthServices().getCurrentUser().then(user => this.setState({ user }))
     }
 
     render() {
