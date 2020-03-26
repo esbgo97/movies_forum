@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Text } from "native-base"
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
     return <Container>
         <Text>Home Screen</Text>
     </Container>
