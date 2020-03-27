@@ -31,6 +31,7 @@ export default class App extends Component {
       },
 
     }
+    this.toggleLoading.bind(this);
   }
 
   componentDidMount = () => {
@@ -55,6 +56,10 @@ export default class App extends Component {
     })
   }
 
+  toggleLoading = (isLoad) => {
+    this.setState({ IsLoading: isLoad })
+  }
+
   render() {
     if (this.state.IsLoading)
       return <SplashScreen message="Starting App" />
@@ -65,10 +70,12 @@ export default class App extends Component {
           {
             this.state.Auth.IsLogged ?
               <>
-                <Drawer.Screen name="Dashboard" component={DashboardScreen} />
+                <Drawer.Screen name="Dashboard"
+                  component={DashboardScreen}
+                  options={{ setLoading: this.toggleLoading }} />
               </> :
               <>
-                <Drawer.Screen name="Home" component={HomeScreen} />
+                <Drawer.Screen name="Home" component={HomeScreen}  />
                 <Drawer.Screen name="Login" component={LoginScreen} />
                 <Drawer.Screen name="SignUp" component={SignUpScreen} />
               </>

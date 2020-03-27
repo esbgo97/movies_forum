@@ -28,7 +28,7 @@ const HomeScreen = ({ navigation }) => {
         </Box>
 
         <Box height={400} >
-            <Text >Powered by </Text>
+            <Text >Powered by esbgo</Text>
         </Box>
     </Container>
 }
