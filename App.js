@@ -27,7 +27,7 @@ export default class App extends Component {
       },
       Auth: {
         IsLogged: false,
-        User: {}
+        User: null
       },
 
     }
@@ -35,24 +35,23 @@ export default class App extends Component {
 
   componentDidMount = () => {
     this.setState({ IsLoading: true })
-    this.authService.getCurrentUser().then(resp => {
-      if (typeof resp === "string") {
-        this.setState({
-          IsLoading: false,
-          Alert: {
-            Type: "error",
-            Message: resp
-          }
-        })
-        return;
-      }
+    let authResult = this.authService.getCurrentUser()
+    if (typeof authResult === "string") {
       this.setState({
         IsLoading: false,
-        Auth: {
-          IsLogged: true,
-          User: resp
+        Alert: {
+          Type: "error",
+          Message: authResult
         }
       })
+    }
+
+    this.setState({
+      IsLoading: false,
+      Auth: {
+        IsLogged: authResult != null,
+        User: authResult
+      }
     })
   }
 

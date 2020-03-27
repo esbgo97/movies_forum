@@ -7,11 +7,10 @@ const GlobalStyles = StyleSheet.create({
     },
     body: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
     },
     title: {
-        color: "#0085A1",
+        alignSelf:"center",
+        color: "#1a237e",
         fontSize: 30
     },
     sectionContainer: {

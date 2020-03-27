@@ -1,9 +1,13 @@
 import { firebase } from '@react-native-firebase/auth'
 import { handleError } from '../utils/UtilitiesError'
+import { PrintObject } from '../utils/ObjectPrinter'
 
 export default class AuthService {
     getCurrentUser = () => {
-        return firebase.auth().currentUser()
+        let auth = firebase.auth()
+        console.warn("update")
+        console.warn(PrintObject(auth))
+        return null
     }
 
     createUserWithEmail = (email, pass) => {
