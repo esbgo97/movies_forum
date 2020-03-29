@@ -1,89 +1,49 @@
 import React, { Component } from 'react';
+import { ActivityIndicator, Text } from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunkMiddleware from 'redux-thunk'
 
-import SplashScreen from './src/ui/screens/main/SplashScreen'
+import rootReducer from './src/store'
+import AppContainer from './src/AppContainer';
+import { getState, setState } from './src/utils/StatePersistent';
+import Box from './src/ui/partials/Box';
 
-import HomeScreen from './src/ui/screens/main/HomeScreen'
-import LoginScreen from './src/ui/screens/auth/LoginScreen'
-import SignUpScreen from './src/ui/screens/auth/SignUpScreen'
-import DashboardScreen from './src/ui/screens/common/DashboardScreen'
 
-import AuthService from './src/services/AuthService'
 
-const Drawer = createDrawerNavigator();
+const middleware = applyMiddleware(thunkMiddleware)
+const store = createStore(rootReducer, middleware)
 
 export default class App extends Component {
-  constructor() {
-    super();
-    this.authService = new AuthService()
-
-    this.state = {
-      IsLoading: false,
-      Alert: {
-        Type: "",
-        Message: ""
-      },
-      Auth: {
-        IsLogged: false,
-        User: null
-      },
-
-    }
-    this.toggleLoading.bind(this);
+  state = {
+    isLoadingStore: false,
+    store
   }
 
-  componentDidMount = () => {
-    this.setState({ IsLoading: true })
-    let authResult = this.authService.getCurrentUser()
-    if (typeof authResult === "string") {
-      this.setState({
-        IsLoading: false,
-        Alert: {
-          Type: "error",
-          Message: authResult
-        }
+  componentDidMount() {
+    this.setState({ isLoadingStore: true })
+    getState().then((state) => {
+      let currentStore = createStore(rootReducer, state, middleware)
+      currentStore.subscribe(() => {
+        setState(currentStore.getState())
       })
-    }
-
-    this.setState({
-      IsLoading: false,
-      Auth: {
-        IsLogged: authResult != null,
-        User: authResult
-      }
+      this.setState({
+        store: currentStore,
+        isLoadingStore: false
+      })
     })
   }
 
-  toggleLoading = (isLoad) => {
-    this.setState({ IsLoading: isLoad })
-  }
-
   render() {
-    if (this.state.IsLoading)
-      return <SplashScreen message="Starting App" />
+    if (this.state.isLoadingStore)
+      return <Box >
+        <ActivityIndicator size="large" />
+        <Text>Loading App State...</Text>
+      </Box>
 
-    return (
-      <NavigationContainer >
-        <Drawer.Navigator initialRouteName={this.state.Auth.IsLogged ? "Dashboard" : "Home"}>
-          {
-            this.state.Auth.IsLogged ?
-              <>
-                <Drawer.Screen name="Dashboard"
-                  component={DashboardScreen}
-                  options={{ setLoading: this.toggleLoading }} />
-              </> :
-              <>
-                <Drawer.Screen name="Home" component={HomeScreen}  />
-                <Drawer.Screen name="Login" component={LoginScreen} />
-                <Drawer.Screen name="SignUp" component={SignUpScreen} />
-              </>
-          }
-        </Drawer.Navigator>
-
-      </NavigationContainer>
-    );
+    return <Provider store={this.state.store}>
+      <AppContainer />
+    </Provider>
   }
 }
-

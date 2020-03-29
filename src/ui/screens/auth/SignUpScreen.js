@@ -1,29 +1,28 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { Container, H1, Form, Item, Label, Input, Button, Text } from "native-base"
+
 import GlobalStyles from '../../../utils/GlobalStyles'
 import Box from '../../partials/Box'
-import AuthService from '../../../services/AuthService'
+import { SignUp } from '../../../store/auth/actions'
 
-const SignUpScreen = ({ navigation }) => {
+
+const SignUpScreen = ({ navigation, onSignUp }) => {
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("")
-    const [message, setMessage] = useState("Registring new Account")
 
     const handleSignUp = () => {
-        new AuthService().createUserWithEmail(email, pass).then(resp => {
-            if (typeof (resp) === "string")
-                setMessage(resp)
-            else {
-                setMessage("your account has been created!")
-            }
-        })
+        onSignUp(email, pass)
     }
+
+    const handleCancel = () => {
+        navigation.navigate("Login")
+    }
+
     return <Container style={GlobalStyles.body}>
         <Box height={150}>
             <H1 style={GlobalStyles.title}>Sign up here!</H1>
-            <Text>{message}</Text>
         </Box>
-
         <Form>
             <Item floatingLabel>
                 <Label>Email</Label>
@@ -42,7 +41,7 @@ const SignUpScreen = ({ navigation }) => {
             <Box height={100}>
                 <Text>Have an account?</Text>
                 <Box height={10} />
-                <Button onPress={() => navigation.navigate("Login")}>
+                <Button onPress={handleCancel}>
                     <Text>Login Here</Text>
                 </Button>
             </Box>
@@ -50,5 +49,14 @@ const SignUpScreen = ({ navigation }) => {
         </Form>
     </Container>
 }
-
-export default SignUpScreen
+const mapStateToProps = (state) => {
+    return {
+        alert: state.main.alert
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSignUp: (user, pass) => dispatch(SignUp(user, pass))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen)

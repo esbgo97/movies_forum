@@ -9,14 +9,14 @@ const GlobalStyles = StyleSheet.create({
         flex: 1,
     },
     title: {
-        alignSelf:"center",
+        alignSelf: "center",
         color: "#1a237e",
         fontSize: 30
     },
     sectionContainer: {
         flex: 1,
         alignItems: "center",
-        maxWidth:"70%"
+        maxWidth: "70%"
     },
     sectionTitle: {
         fontSize: 24,
@@ -47,12 +47,29 @@ const GlobalStyles = StyleSheet.create({
     langs: {
         paddingLeft: 20
     },
-    inLine: {  alignSelf: "stretch"},
-    smBtn:{
-        width:20,
-        height:5,
-        maxHeight:5
+    inLine: { alignSelf: "stretch" },
+    smBtn: {
+        width: 20,
+        height: 5,
+        maxHeight: 5
+    },
+    whiteColor: {
+        color: "white"
+    },
+    info: {
+        backgroundColor: "#33b5e5",
+        color: "white"
+    },
+    success: {
+        backgroundColor: "#00C851", color: "white"
+    },
+    warn: {
+        backgroundColor: "#ffbb33", color: "white"
+    },
+    error: {
+        backgroundColor: "#ff4444", color: "white"
     }
+
 });
 
 export default GlobalStyles

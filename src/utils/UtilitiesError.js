@@ -1,13 +1,10 @@
 const handleError = (err) => {
-    //console.warn(err)
-    // let keys = Object.keys(err);
-    // let resp= ""
-    // keys.forEach(k => {
-    //     resp += k+","
-    // })
-    let msg = err.message.replace(/ *\[[^)]*\] */g, "");
-    
-
+    let msg = ""
+    if (err.message)
+        msg += err.message.replace(/ *\[[^)]*\] */g, "");
+    if (msg == "") {
+        msg = JSON.stringify(err)
+    }
     return msg;
 }
 

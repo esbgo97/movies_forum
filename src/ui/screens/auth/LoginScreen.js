@@ -1,29 +1,24 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { Container, H1, Form, Item, Label, Input, Button, Text } from "native-base"
+
 import GlobalStyles from '../../../utils/GlobalStyles'
 import Box from '../../partials/Box'
-import AuthService from '../../../services/AuthService'
-import { PrintObject } from '../../../utils/ObjectPrinter'
+import AppAlert from '../../partials/AppAlert'
+import { SignIn } from '../../../store/auth/actions'
 
-const LoginScreen = ({ navigation, setLoading }) => {
+const LoginScreen = ({ navigation, onSignIn, state }) => {
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("")
-    const [message, setMessage] = useState("")
 
-    const handleSignIn = () => {
-        setMessage("Sending..")
-        new AuthService().signIn(email, pass).then(resp => {
-            if (typeof (resp) === "string")
-                setMessage(resp)
-            else navigation.navigate("Dashboard")
-        })
+    const onSubmit = () => {
+        onSignIn(email, pass)
     }
+
     return <Container style={GlobalStyles.body}>
         <Box height={150}>
             <H1 style={GlobalStyles.title}>Login here!</H1>
-            <Text>{message}</Text>
         </Box>
-
         <Form>
             <Item floatingLabel>
                 <Label>Email</Label>
@@ -35,7 +30,7 @@ const LoginScreen = ({ navigation, setLoading }) => {
                     onChangeText={(val) => setPass(val)} />
             </Item>
             <Box height={100}>
-                <Button onPress={() => handleSignIn()}>
+                <Button onPress={onSubmit}>
                     <Text>Sign In</Text>
                 </Button>
             </Box>
@@ -50,5 +45,12 @@ const LoginScreen = ({ navigation, setLoading }) => {
         </Form>
     </Container>
 }
-
-export default LoginScreen
+const mapStateToProps = (state) => {
+    return { state }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        onSignIn: (user, pass) => dispatch(SignIn(user, pass))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)

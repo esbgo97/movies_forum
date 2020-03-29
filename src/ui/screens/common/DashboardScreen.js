@@ -1,17 +1,29 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { View, Text } from 'react-native'
+import { Button, Icon } from 'native-base'
+import { connect } from 'react-redux'
+
 import GlobalStyles from '../../../utils/GlobalStyles'
-import AuthService from '../../../services/AuthService'
-import { PrintObject } from '../../../utils/ObjectPrinter'
+import AppHeader from '../../partials/AppHeader'
 
-export default class DashboardScreen extends Component {
-    componentDidMount() {
-        
+const DashboardScreen = ({ navigation, user, onSignOut }) => {
+    const onExit = () => {
+        onSignOut()
     }
-
-    render() {
-        return (<View style={GlobalStyles.body}>
-            <Text>Welcome {"asd"}</Text>
-        </View>)
+    return (<View style={GlobalStyles.body}>
+        <AppHeader navigation={navigation} title="Dashboard"/>
+        <Text style={GlobalStyles.sectionTitle}>Welcome {user.email}</Text>
+    </View>)
+}
+const mapPropsToState = (state) => {
+    return {
+        user: state.auth.user
     }
 }
+const mapDispatchToState = (dispatch) => {
+    return {
+        onSignOut: () => dispatch(SignOut())
+    }
+}
+
+export default connect(mapPropsToState, mapDispatchToState)(DashboardScreen)
