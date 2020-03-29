@@ -1,7 +1,8 @@
-import AuthService from '../../services/AuthService'
-import { handleError } from '../../utils/UtilitiesError'
 import { SIGN_IN, SIGN_OUT, SIGN_UP } from './types'
 import { SHOW_ALERT, HIDE_LOADING, SHOW_LOADING } from '../main/types'
+
+import AuthService from '../../services/AuthService'
+import { handleError } from '../../utils/UtilitiesError'
 import { ShowAlert } from '../main/actions'
 
 export const SignIn = (email, pass) => {
@@ -34,25 +35,25 @@ export const SignIn = (email, pass) => {
 
 export const SignUp = (email, pass) => {
     return async (dispatch) => {
-        dispatch({
-            type: SHOW_LOADING,
-            payload: "Signing Up.."
-        })
+
         try {
-            let resp = new AuthService().createUserWithEmail(email, pass)
             dispatch({
-                type: SIGN_UP,
-                payload: resp
+                type: SHOW_LOADING,
+                payload: "Signing Up"
             })
+
+            let resp = await new AuthService().createUserWithEmail(email, pass)
+            if (typeof (resp) == "string") {
+                dispatch(ShowAlert("warn", resp))
+            } else {
+                dispatch({
+                    type: SIGN_UP,
+                    payload: resp
+                })
+            }
         }
         catch (err) {
-            dispatch({
-                type: SHOW_ALERT,
-                payload: {
-                    type: "error",
-                    message: handleError(err)
-                }
-            })
+            dispatch(ShowAlert("error", handleError(err)))
         }
         finally {
             dispatch({
@@ -65,17 +66,15 @@ export const SignUp = (email, pass) => {
 
 export const SignOut = () => {
     return async (dispatch) => {
-        dispatch({ type: SHOW_LOADING, payload: "Sign out" })
+
         try {
+            dispatch({ type: SHOW_LOADING, payload: "Sign out" })
             await new AuthService().signOut()
-            dispatch({ type: SIGN_OUT })
         } catch (err) {
-            dispatch({
-                type: SHOW_ALERT,
-                payload: handleError(err)
-            })
+            dispatch(ShowAlert("error", handleError(err)))
         }
         finally {
+            dispatch({ type: SIGN_OUT })
             dispatch({ type: HIDE_LOADING })
         }
     }

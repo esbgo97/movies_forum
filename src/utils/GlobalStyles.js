@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-const primaryColor = "#1a237e"
+const primaryColor = "#293A48"
+const defaultColor= "#3F729B"
 const infoColor = "#33b5e5"
 const successColor = "#00C851"
 const warnColor = "#ffbb33"
@@ -9,6 +10,8 @@ const errorColor = "#ff4444"
 
 const palette = {
     "primary": primaryColor,
+    "default":defaultColor,
+    "seccess":successColor,
     "info": infoColor,
     "warn": warnColor,
     "error": errorColor

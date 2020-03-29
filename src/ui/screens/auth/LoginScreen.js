@@ -12,6 +12,10 @@ const LoginScreen = ({ navigation, onSignIn, state }) => {
     const [pass, setPass] = useState("")
 
     const onSubmit = () => {
+        if(email =="" ||pass ==""){
+            alert("Complete the form!")
+            return
+        }
         onSignIn(email, pass)
     }
 

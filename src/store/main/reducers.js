@@ -1,13 +1,7 @@
-import { SHOW_ALERT, HIDE_ALERT, HIDE_LOADING, SHOW_LOADING } from './types'
-const initialState = {
-    isLoading: false,
-    message: "",
-    alert: {
-        type: "",
-        message: ""
-    }
-}
-const mainReducer = (state = initialState, action) => {
+import { SHOW_ALERT, HIDE_ALERT, HIDE_LOADING, SHOW_LOADING, RESET_STATE } from './types'
+import { appInitialState } from '../../utils/StatePersistent'
+
+const mainReducer = (state = appInitialState.main, action) => {
     switch (action.type) {
         case SHOW_LOADING:
             return {
@@ -31,7 +25,9 @@ const mainReducer = (state = initialState, action) => {
                 ...state,
                 alert: { type: "", message: "" }
             }
-
+        case RESET_STATE:
+            return appInitialState.main
+            
         default:
             return state;
     }

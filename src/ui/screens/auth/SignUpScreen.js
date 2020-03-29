@@ -12,6 +12,10 @@ const SignUpScreen = ({ navigation, onSignUp }) => {
     const [pass, setPass] = useState("")
 
     const handleSignUp = () => {
+        if (email == "" || pass == "") {
+            alert("Complete the form!")
+            return
+        }
         onSignUp(email, pass)
     }
 

@@ -31,7 +31,7 @@ const AppContainer = ({ state }) => {
             }
         </Drawer.Navigator>
     </NavigationContainer>
-        {main.alert.message != "" && <AppAlert />}
+        {main.alert && main.alert.message != "" && <AppAlert />}
     </>)
 }
 const mapState = (state) => { return { state } }

@@ -1,5 +1,6 @@
 import { SIGN_IN, SIGN_UP, SIGN_OUT } from "./types";
-
+import { RESET_STATE } from '../main/types'
+import { appInitialState } from '../../utils/StatePersistent'
 const initialState = {
     isLogged: false,
     user: null
@@ -26,6 +27,8 @@ const authReducer = (state = initialState, action) => {
                 isLogged: false,
                 user: null
             }
+        case RESET_STATE:
+            return appInitialState.auth
 
         default:
             return state;

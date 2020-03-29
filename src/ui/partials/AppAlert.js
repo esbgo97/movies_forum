@@ -8,7 +8,7 @@ import { HideAlert } from '../../store/main/actions'
 
 const AppAlert = ({ type, message, close }) => {
 
-    return (<Box color={palette[type]} height={message.length * 2}>
+    return (<Box color={palette[type]} height={50}>
         <Text style={GlobalStyles.whiteColor}> {message}</Text>
         <Icon type="AntDesign" name="close"
             style={GlobalStyles.whiteColor}
@@ -18,7 +18,10 @@ const AppAlert = ({ type, message, close }) => {
 }
 
 const mapStateToProps = (state) => {
-    return state.main.alert
+    return {
+        type:state.main.alert.type,
+        message:state.main.alert.message
+    }
 }
 const mapDispatchToState = (dispatch) => {
     return {

@@ -1,4 +1,4 @@
-import { SHOW_LOADING, HIDE_ALERT, HIDE_LOADING, SHOW_ALERT } from "./types"
+import { SHOW_LOADING, HIDE_ALERT, HIDE_LOADING, SHOW_ALERT, RESET_STATE } from "./types"
 
 
 export const ShowLoading = (message) => {
@@ -37,9 +37,16 @@ export const HideAlert = () => {
         dispatch({
             type: HIDE_ALERT,
             payload: {
-                type: "transparent",
+                type: "primary",
                 message: ""
             }
+        })
+    }
+}
+export const ResetState = () => {
+    return async (dispatch) => {
+        dispatch({
+            type: RESET_STATE
         })
     }
 }
