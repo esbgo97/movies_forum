@@ -32,13 +32,13 @@ export const ShowAlert = (type, message) => {
     }
 }
 
-export const HideAlert = (type, message) => {
+export const HideAlert = () => {
     return async (dispatch) => {
         dispatch({
             type: HIDE_ALERT,
             payload: {
-                type,
-                message
+                type: "transparent",
+                message: ""
             }
         })
     }

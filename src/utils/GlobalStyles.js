@@ -1,6 +1,19 @@
 import { StyleSheet } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
+const primaryColor = "#1a237e"
+const infoColor = "#33b5e5"
+const successColor = "#00C851"
+const warnColor = "#ffbb33"
+const errorColor = "#ff4444"
+
+const palette = {
+    "primary": primaryColor,
+    "info": infoColor,
+    "warn": warnColor,
+    "error": errorColor
+}
+
 const GlobalStyles = StyleSheet.create({
     scrollView: {
         backgroundColor: Colors.lighter,
@@ -10,7 +23,7 @@ const GlobalStyles = StyleSheet.create({
     },
     title: {
         alignSelf: "center",
-        color: "#1a237e",
+        color: primaryColor,
         fontSize: 30
     },
     sectionContainer: {
@@ -57,19 +70,10 @@ const GlobalStyles = StyleSheet.create({
         color: "white"
     },
     info: {
-        backgroundColor: "#33b5e5",
+        backgroundColor: primaryColor,
         color: "white"
-    },
-    success: {
-        backgroundColor: "#00C851", color: "white"
-    },
-    warn: {
-        backgroundColor: "#ffbb33", color: "white"
-    },
-    error: {
-        backgroundColor: "#ff4444", color: "white"
     }
-
 });
 
+export { palette }
 export default GlobalStyles

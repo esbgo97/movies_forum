@@ -1,19 +1,28 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View } from 'react-native'
-import { Text } from 'native-base'
-import GlobalStyles from '../../utils/GlobalStyles'
+import { Text, Icon } from 'native-base'
 
-const AppAlert = ({ type, message }) => {
+import GlobalStyles, { palette } from '../../utils/GlobalStyles'
+import Box from './Box'
+import { HideAlert } from '../../store/main/actions'
 
-    return (<View style={GlobalStyles[type]}>
-        <Text > {message}</Text>
-    </View>)
+const AppAlert = ({ type, message, close }) => {
+
+    return (<Box color={palette[type]} height={message.length * 2}>
+        <Text style={GlobalStyles.whiteColor}> {message}</Text>
+        <Icon type="AntDesign" name="close"
+            style={GlobalStyles.whiteColor}
+            onPress={() => close()} />
+    </Box>)
 
 }
 
 const mapStateToProps = (state) => {
     return state.main.alert
 }
-
-export default connect(mapStateToProps)(AppAlert)
+const mapDispatchToState = (dispatch) => {
+    return {
+        close: () => dispatch(HideAlert())
+    }
+}
+export default connect(mapStateToProps, mapDispatchToState)(AppAlert)
