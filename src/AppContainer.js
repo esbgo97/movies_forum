@@ -6,7 +6,9 @@ import SplashScreen from './ui/screens/main/SplashScreen'
 import HomeScreen from './ui/screens/main/HomeScreen'
 import LoginScreen from './ui/screens/auth/LoginScreen'
 import SignUpScreen from './ui/screens/auth/SignUpScreen'
+
 import DashboardScreen from './ui/screens/common/DashboardScreen'
+import MoviesScreen from './ui/screens/app/MoviesScreen'
 import AppAlert from './ui/partials/AppAlert'
 
 import { connect } from 'react-redux';
@@ -22,6 +24,7 @@ const AppContainer = ({ state }) => {
                 auth.isLogged ?
                     <>
                         <Drawer.Screen name="Dashboard" component={DashboardScreen} />
+                        <Drawer.Screen name="Movies" component={MoviesScreen} />
                     </> :
                     <>
                         <Drawer.Screen name="Home" component={HomeScreen} />
